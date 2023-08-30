@@ -1,7 +1,6 @@
 import tkinter as tk
 import pyautogui as pg
 from datetime import datetime
-import re
 
 
 class AutoClickerGUI(tk.Frame):
