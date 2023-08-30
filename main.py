@@ -67,6 +67,9 @@ class AutoClickerGUI(tk.Frame):
         self.pause_entry = tk.Entry(self.frame_settings, width=5, font=("Arial", 24), justify="center")
         self.pause_entry.insert(0, "0.5")
         self.pause_entry.grid(row=1, column=1, sticky='s')
+        
+        self.how_to_stop = tk.Label(self.master, text="To stop the loop, move your mouse to any corner of the screen.")
+        self.how_to_stop.place(x=30, y=480)
 
     def create_log(self):
         # Log Widget
@@ -105,7 +108,11 @@ class AutoClickerGUI(tk.Frame):
 
     def validate_iterations(self):
         try:
-            return int(self.iterations_entry.get())
+            iterations = int(self.iterations_entry.get())
+            if iterations > 0:
+                return iterations
+            raise ValueError
+        
         except ValueError:
             self.log_text.insert(tk.END, "Invalid number of iterations.\n")
             return False
@@ -128,14 +135,22 @@ class AutoClickerGUI(tk.Frame):
         
     def validate_duration(self):
         try:
-            return float(self.duration_entry.get())
+            durations = float(self.duration_entry.get())
+            if durations > 0:
+                return durations
+            raise ValueError
+        
         except ValueError:
             self.log_text.insert(tk.END, "Invalid click duration.\n")
             return False
         
     def validate_pause(self):
         try:
-            return float(self.pause_entry.get())
+            loop_pause = float(self.pause_entry.get())
+            if loop_pause > 0:
+                return loop_pause
+            raise ValueError
+
         except ValueError:
             self.log_text.insert(tk.END, "Invalid loop pause.\n")
             return False
@@ -195,7 +210,7 @@ class AutoClickerGUI(tk.Frame):
     
     def clear_log(self, event=None):
         self.log_text.delete(1.0, tk.END)
-        
+
 
 root = tk.Tk()
 root.wm_attributes("-topmost", 1)  # Make window always be on top
